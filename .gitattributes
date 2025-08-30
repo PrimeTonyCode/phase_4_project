@@ -1,0 +1,41 @@
+.gitattributes
+# Set default text handling (normalize line endings)
+* text=auto
+
+# Handle Jupyter notebooks as text (so diffs are easier)
+*.ipynb text diff=ipynb
+
+# Ensure Python scripts are treated as text
+*.py text diff=python
+
+# Treat CSV/TSV/JSON data as text (diffable)
+*.csv text
+*.tsv text
+*.json text
+
+# Binary files (no diffs, just store as binary)
+*.pkl binary
+*.joblib binary
+*.h5 binary
+*.hdf5 binary
+*.sav binary
+*.sqlite binary
+*.db binary
+
+# Images & figures
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+
+# Office files
+*.docx binary
+*.pptx binary
+*.xlsx binary
+*.xls binary
+
+# Large data/output (mark as binary to avoid corruption in diffs)
+output/* binary
+reports/* binary
+figures/* binary
