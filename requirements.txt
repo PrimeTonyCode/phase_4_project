@@ -1,0 +1,22 @@
+requirements.txt
+# Core
+numpy
+pandas
+scikit-learn
+
+# NLP & Text Processing
+nltk
+spacy
+textblob
+
+# Visualization
+matplotlib
+seaborn
+
+# Jupyter & Utilities
+notebook
+jupyterlab
+
+# Optional (for advanced models or feature engineering)
+xgboost
+lightgbm
