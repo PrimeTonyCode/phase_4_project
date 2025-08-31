@@ -75,7 +75,7 @@ jupyter notebook Tweet_Sentiment_NLP.ipynb
 - `LogisticRegression`: {'C': 10, 'solver': 'saga'}
 - `MultinomialNB`: {'alpha': 0.1}
 - `SVM`: {'C': 8.424426408004217, 'kernel': 'rbf'}
-- RandomForest tuned via GridSearchCV (best params printed in the notebook outputs).
+- RandomForest tuned via GridSearchCV .
 
 ---
 
