@@ -1,6 +1,5 @@
 
 # 📊 Apple & Google Tweet Sentiment Analysis
-![alt text](image.png)
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![NLP](https://img.shields.io/badge/NLP-Sentiment%20Analysis-brightgreen)
