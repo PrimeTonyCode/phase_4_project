@@ -1,100 +1,95 @@
-# 📊 Apple and Google Tweet Sentiment Analysis
 
-![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)
+# 📊 Apple & Google Tweet Sentiment Analysis
+![alt text](image.png)
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![NLP](https://img.shields.io/badge/NLP-Sentiment%20Analysis-brightgreen)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
+
+## 📖 Overview
+This repository contains a complete **NLP pipeline** to classify tweet sentiment (**negative / neutral / positive**) about **Apple** and **Google** products.
+The notebook walks through data cleaning, TF‑IDF features, classical ML models, **GridSearchCV** tuning, and evaluation.
 
 ---
 
-## 📖 Overview
-This project applies **Natural Language Processing (NLP)** to analyze public sentiment toward **Apple** and **Google** products using a dataset of **9,093 labeled tweets**. Tweets are classified into **positive, negative, or neutral**, providing actionable insights into brand perception.  
-
-We demonstrate a full **end-to-end ML workflow**:
-- Text preprocessing
-- Feature engineering with **TF-IDF** and embeddings
-- Supervised learning with **Logistic Regression, Random Forest, Naive Bayes, and SVM**
-- Hyperparameter tuning with **GridSearchCV**
-- Model evaluation with classification reports, confusion matrices, and performance plots
+## 🧭 Table of Contents
+- [Dataset](#-dataset)
+- [Reproducibility](#-reproducibility)
+- [Tech Stack](#-tech-stack)
+- [Quickstart](#-quickstart)
+- [Results](#-results)
+- [Insights](#-insights)
+- [Limitations](#️-limitations)
+- [Authors](#-authors)
 
 ---
 
 ## 🗂️ Dataset
-- **Source:** [CrowdFlower via data.world](https://data.world/crowdflower/brands-and-product-emotions)
-- **Size:** 9,093 tweets
-- **Labels:** `positive`, `negative`, `neutral`
-- **Features:**
-  - Raw tweet text (hashtags, mentions, emojis, slang)
-  - Optional brand/product target (e.g., *iPad*, *Google Maps*)
+- **Source:** CrowdFlower via data.world — *Brands and Product Emotions* (9,093 tweets)
+- **Labels:** `negative`, `neutral`, `positive`
+- **Notes:** Highly informal text (slang, emojis) and **class imbalance** (neutral dominates).
 
-⚠️ **Limitations:**
-- Collected pre-2013 → not fully reflective of modern trends
-- Class imbalance (neutral tweets dominate)
-- Informal language requires extensive preprocessing
+---
+
+## 🔁 Reproducibility
+
+**Train/Test split** 
+
+**TF‑IDF vectorizer**
+
+**NLTK assets:**
+```python
+import nltk
+nltk.download('stopwords')
+```
 
 ---
 
 ## ⚙️ Tech Stack
-- **Languages:** Python
-- **Core Libraries:**
-  - Data: `pandas`, `numpy`
-  - NLP: `nltk`, `scikit-learn`, `wordcloud`
-  - Visualization: `matplotlib`, `seaborn`
-  - Modeling: `LogisticRegression`, `RandomForest`, `NaiveBayes`, `SVM`, `GridSearchCV`
+- Python 
+- pandas, numpy, scikit‑learn, nltk, matplotlib, seaborn, wordcloud
 
 ---
 
-## 📑 Table of Contents
-1. [Installation](#-installation)
-2. [Usage](#-usage)
-3. [Results](#-results)
-4. [Author](#-author)
-
----
-
-## 🚀 Installation
-Clone the repository:
+## 🚀 Quickstart
 ```bash
 git clone https://github.com/PrimeTonyCode/phase_4_project
 cd Tweet_Sentiment_NLP
-```
-
-Install dependencies:
-``
-
-Run the notebook:
-```bash
+pip install -r requirements.txt
 jupyter notebook Tweet_Sentiment_NLP.ipynb
 ```
 
 ---
 
-## ▶️ Usage
-- **Preprocessing:** Cleans tweets, removes URLs/mentions/hashtags, tokenizes, and lemmatizes.
-- **Feature Engineering:** Converts text into TF-IDF vectors.
-- **Modeling:** Trains and tunes multiple classifiers.
-- **Evaluation:** Outputs classification reports, confusion matrices, and sentiment distribution plots.
-
----
-
 ## 📊 Results
+| Model | Accuracy | Macro F1 | Weighted F1 |
+|-------|----------|----------|-------------|
+| Logistic Regression (Multiclass) | 0.653 | 0.58 | 0.66 |
+| Naive Bayes (Multiclass) | 0.589 | 0.52 | 0.61 |
+| Random Forest (Multiclass) | 0.679 | 0.57 | 0.67 |
+| SVM (Multiclass) | 0.653 | 0.56 | 0.67 |
 
-| Model | Accuracy | Macro F1 | Notes |
-|-------|----------|----------|-------|
-| Logistic Regression (Tuned) | 66% | 0.58 | Balanced, interpretable |
-| Naive Bayes (Tuned) | 62% | 0.54 | Good at negatives, weaker elsewhere |
-| Random Forest (Tuned) | **68%** | 0.58 | Strongest recall for neutrals |
-| SVM (Tuned) | **68%** | 0.56 | High precision on neutrals |
+**Best recorded model (by accuracy):** `Random Forest (Multiclass)` at **0.679**.
 
-🔍 **Key Insights:**
-- Apple received more **negative tweets**, especially about the *iPad*.
-- Google showed higher **positive sentiment** for *Maps* and *Search*.
-- Neutral tweets dominate, suggesting much of the conversation is informational.
-
-
-
----
-
+**Best hyperparameters found (from GridSearch in notebook):**
+- `LogisticRegression`: {'C': 10, 'solver': 'saga'}
+- `MultinomialNB`: {'alpha': 0.1}
+- `SVM`: {'C': 8.424426408004217, 'kernel': 'rbf'}
+- RandomForest tuned via GridSearchCV (best params printed in the notebook outputs).
 
 ---
 
-## 👤 Authors
+## 🔍 Insights
+- Apple tweets tend to be **more negative** (esp. around *iPad* references).
+- Google tweets skew **more positive** (notably for *Maps* and *Search*).
+- The **neutral** class is most frequent → consider class balancing, thresholding, or cost‑sensitive training.
+
+---
+
+## ⚠️ Limitations
+- Historical dataset (pre‑2013) — results may not reflect current sentiment.
+- Sarcasm, context outside the tweet, and multimodal cues are not captured.
+
+---
+
+## 📄 Authors
