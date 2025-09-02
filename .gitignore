@@ -67,3 +67,8 @@ desktop.ini
 *.swp
 *.swo
 *~
+# ignore model files
+bert_sentiment_model/
+*.safetensors
+*.bin
+*.pt
