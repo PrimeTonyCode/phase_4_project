@@ -33,7 +33,7 @@ An end‑to‑end **Natural Language Processing** pipeline that classifies Twitt
 
 ## 🗂️ Project Structure
 ```
-├── Tweet_Sentiment_NLP.ipynb                          
+├── Tweet_Sentiment.ipynb                          
 ├── Presentation.Pdf                                   
 ├── README.md                                          
 ├── requirements.txt                                   
