@@ -1,7 +1,7 @@
-# 📊 Apple & Google Tweet Sentiment Analysis — End‑to‑End NLP Project
+# 📊 Apple & Google Tweet Sentiment Analysis.
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue) ![NLP](https://img.shields.io/badge/NLP-Sentiment%20Analysis-brightgreen) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
 
-![Alt text](output\combined_wordclouds.png)
+![Alt text](output/combined_wordclouds.png)
 
 ## 📖 Overview
 An end‑to‑end **Natural Language Processing** pipeline that classifies Twitter posts about **Apple** and **Google** products into **negative / neutral / positive** sentiments. The project demonstrates a complete workflow: data acquisition, **EDA**, rigorous **text preprocessing**, **TF‑IDF** feature extraction, traditional ML models (Logistic Regression, Naive Bayes, Random Forest, SVM), **hyperparameter tuning**, evaluation, and business‑oriented interpretation. Two tracks are covered: **Binary** (positive vs negative) and **Multiclass** (negative/neutral/positive) for nuanced monitoring.
@@ -33,11 +33,12 @@ An end‑to‑end **Natural Language Processing** pipeline that classifies Twitt
 
 ## 🗂️ Project Structure
 ```
-├── Tweet_Sentiment_NLP.ipynb                # Main analysis notebook
-├── Tweet_Sentiment_Analysis_Presentation.pptx  # Slide deck (summary of findings)
-├── README.md                                # (this file)
-├── requirements.txt                         # Python dependencies
-└── data/                                    # (optional) dataset storage (not included)
+├── Tweet_Sentiment_NLP.ipynb                          
+├── Presentation.Pdf                                   
+├── README.md                                          
+├── requirements.txt                                   
+├── output
+└──                                              
 ```
 
 ## 🗃️ Dataset
