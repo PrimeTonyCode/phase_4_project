@@ -67,3 +67,77 @@ desktop.ini
 *.swp
 *.swo
 *~
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.egg-info/
+.eggs/
+*.egg
+*.manifest
+*.spec
+
+# --- Virtual Environments ---
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints
+*.ipynb_save
+profile_default/
+ipython_config.py
+
+# --- Logs & Databases ---
+*.log
+*.sql
+*.sqlite
+*.db
+*.db-journal
+results/
+
+
+# --- Compiled code / C extensions ---
+*.so
+*.dll
+*.dylib
+*.o
+*.out
+*.a
+
+# --- Distribution / Packaging ---
+build/
+dist/
+pip-wheel-metadata/
+wheels/
+*.egg-info/
+
+# --- OS / System Files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDEs & Editors ---
+# VSCode
+.vscode/
+.history/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Others
+*.swp
+*.swo
+*~
+# ignore model files
+bert_sentiment_model/
+*.safetensors
+*.bin
+*.pt
