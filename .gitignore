@@ -141,3 +141,7 @@ bert_sentiment_model/
 *.safetensors
 *.bin
 *.pt
+check_model_files.py
+copy_model_files.py
+0.26.0
+0.26.0'
