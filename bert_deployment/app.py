@@ -1,78 +1,61 @@
-from flask import Flask, request, jsonify
-from transformers import AutoModelForSequenceClassification, AutoTokenizer
-import torch
+from fastapi import FastAPI
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+import joblib
+import numpy as np
 import os
+import pandas as pd
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(__file__)
+PIPELINE_PATH = os.path.join(BASE_DIR, "random_forest_model.joblib") 
 
-# Load the model and tokenizer
-model_path = '../bert-saved'
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
-tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = joblib.load(PIPELINE_PATH)
 
-# Set the model to evaluation mode
-model.eval()
+# Define possible classes
+class_names = model.classes_
 
-def predict_sentiment(text):
-    """
-    Predict sentiment using the BERT model
-    """
+# FastAPI app
+app = FastAPI()
+
+# Request body schema
+class TweetRequest(BaseModel):
+    tweets: list[str]  # Expecting a list of raw text tweets
+
+
+@app.get("/")
+def read_root():
+    return {'message': 'Twitter Sentiments Model API'}
+
+@app.post("/predict")
+def predict(request: TweetRequest):
     try:
-        # Tokenize the input text
-        inputs = tokenizer(text, truncation=True, padding=True, return_tensors="pt")
-        
-        # Make prediction
-        with torch.no_grad():
-            outputs = model(**inputs)
-            predictions = torch.nn.functional.softmax(outputs.logits, dim=-1)
-        
-        # Get predicted class and probabilities
-        predicted_class = torch.argmax(predictions, dim=1).item()
-        probabilities = predictions[0].tolist()
-        
-        # Convert numerical labels to sentiment labels (adjust these based on your model's classes)
-        sentiment_labels = ['negative', 'neutral', 'positive']
-        predicted_sentiment = sentiment_labels[predicted_class]
-        
-        # Create confidence scores
-        confidence_scores = {
-            label: f"{prob*100:.2f}%" 
-            for label, prob in zip(sentiment_labels, probabilities)
-        }
-        
-        return {
-            'text': text,
-            'sentiment': predicted_sentiment,
-            'confidence': confidence_scores[predicted_sentiment],
-            'probabilities': confidence_scores
-        }
-    
+
+        # Build DataFrame with correct column name as used in notebook
+        df = pd.DataFrame({"tweet_text": request.tweets})
+
+        # Predict
+        predictions = model.predict(df)
+
+        # If predictions are strings, use them directly
+        if isinstance(predictions[0], str):
+            mapped_predictions = predictions
+        else:
+            # If predictions are encoded as integers, map to string labels
+            # Try to get mapping from model.classes_ if available
+            try:
+                mapped_predictions = [model.classes_[pred] for pred in predictions]
+            except Exception:
+                # Fallback to hardcoded mapping
+                label_map = {0: "negative", 1: "positive", 2: "neutral"}
+                mapped_predictions = [label_map.get(pred, "unknown") for pred in predictions]
+
+        # Return each tweet alongside its prediction
+        results = [
+            {"tweet": tweet, "sentiment": sentiment}
+            for tweet, sentiment in zip(request.tweets, mapped_predictions)
+        ]
+
+        return {"predictions": results}
+
     except Exception as e:
-        return {'error': str(e)}
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    try:
-        data = request.get_json()
-        
-        if not data or 'text' not in data:
-            return jsonify({'error': 'No text provided'}), 400
-        
-        text = data['text']
-        result = predict_sentiment(text)
-        
-        if 'error' in result:
-            return jsonify(result), 500
-            
-        return jsonify(result)
-    
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({'status': 'healthy', 'model': 'BERT'}), 200
-
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+        return JSONResponse(status_code=500, content={"error": str(e)})
